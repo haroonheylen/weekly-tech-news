@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>This Week's Report: 26 Mar 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #292620;
+    --ink-muted: #333333;
+    --paper: #fffffe;
+    --paper-warm: #f0f0f0;
+    --accent: #2b7fc0;
+    --accent-soft: #d2d9e8;
+    --rule: #d9d4c8;
+    --code-bg: #d5d5d5a5;
+    --tag-cs: #1a4b6e;
+    --tag-sw: #163950;
+    --tag-hw: #1a4b6e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.78;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: #151a1f;
+    color: var(--paper);
+    padding: 3.5rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 12px, transparent 12px, transparent 18px);
+  }
+  .masthead-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #a09880;
+    margin-bottom: 1.2rem;
+  }
+  .masthead h1 {
+    font-family: 'Franklin Gothic Medium', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+    color: #e2e2e2;
+    margin-bottom: 0.8rem;
+  }
+  .masthead h1 span { color: var(--accent); font-style: italic; }
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: #a09880;
+    letter-spacing: 0.1em;
+    border-top: 1px solid #3d3830;
+    padding-top: 1.2rem;
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .masthead-meta span::before { content: '// '; color: var(--accent); }
+
+  /* ── NAV ── */
+  .toc-bar {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.9rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .toc-bar a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc-bar a:hover { color: var(--accent); }
+  .toc-bar .sep { color: var(--rule); }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    padding: 2rem 0 2rem 0;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+  .section-header h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-header h2 .num {
+    font-style: italic;
+    color: var(--accent);
+    margin-right: 0.15em;
+  }
+
+  /* ── ARTICLES ── */
+  .article { margin-bottom: 4rem; }
+
+  .article-header { margin-bottom: 1.5rem; }
+
+  .article-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2em 0.6em;
+    border-radius: 2px;
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+  }
+  .tag-cs { background: #ddeaf4; color: var(--tag-cs); }
+  .tag-sw { background: #deefd5; color: var(--tag-sw); }
+  .tag-hw { background: #f7e6d8; color: var(--tag-hw); }
+
+  .article h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+    font-weight: 620;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+
+  .article-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .article p {
+    margin-bottom: 1.3rem;
+    color: var(--ink-soft);
+  }
+  .article p:last-of-type { margin-bottom: 0; }
+
+  /* ── CODE BLOCKS ── */
+  pre, code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    color: var(--tag-hw);
+  }
+  pre {
+    background: #1c1a17;
+    color: #d9d4c0;
+    padding: 1.4rem 1.6rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.8rem 0;
+    line-height: 1.6;
+    border-left: 3px solid var(--accent);
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.78rem;
+  }
+  .comment { color: #6b7a60; }
+  .kw { color: #c98b57; }
+  .str { color: #8db07c; }
+  .fn { color: #7fb1c9; }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  thead tr {
+    background: #474747;
+    color: var(--paper);
+  }
+  thead th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  tbody tr:nth-child(even) { background: var(--paper-warm); }
+  tbody td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .td-mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; }
+
+  /* ── CALLOUT / PULL QUOTE ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--accent-soft);
+    border-radius: 0 4px 4px 0;
+  }
+  .callout p {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat-card {
+    background: #e1e1e1;
+    color: var(--paper);
+    padding: 1.2rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+    line-height: 1.3;
+  }
+
+  /* ── FURTHER READING ── */
+  .further-reading {
+    margin-top: 2rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .further-reading-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.7rem;
+  }
+  .further-reading a {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--tag-cs);
+    text-decoration: none;
+    margin-bottom: 0.3rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .further-reading a:hover { text-decoration: underline; color: var(--accent); }
+  .further-reading a::before { content: '→ '; }
+
+  /* ── DIVIDER ── */
+  .article-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 3rem 0;
+  }
+
+    /* ── FOOTER ── */
+  footer {
+    background:  #151a1f;
+    color: #a09880;
+    padding: 2.8rem 2rem;
+    margin-top: 5rem;
+    text-align: center;
+  }
+  footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+  .footer-author {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: var(--paper);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #c8bfad;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    border: 1px solid #3b3d30;
+    padding: 0.4em 0.85em;
+    border-radius: 3px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .footer-links a:hover {
+    color: var(--paper);
+    border-color: var(--accent);
+    background: rgba(193, 193, 193, 0.1);
+  }
+  .footer-links svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: #3d3830;
+    margin: 2rem auto;
+  }
+  .footer-license {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: #6b6358;
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .container { padding: 0 1.2rem; }
+    .toc-bar { gap: 0.8rem; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .toc-bar { display: none; }
+    body { font-size: 10pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <p class="masthead-eyebrow">Technical Analysis &amp; Engineering Review</p>
+  <h1>This Week's Report:<br>26 Mar 2026</h1>
+</header>
+
+<!-- STICKY NAV -->
+<nav class="toc-bar">
+  <a href="#cs">Computer Science</a>
+  <span class="sep">|</span>
+  <a href="#sw">Software Development</a>
+  <span class="sep">|</span>
+  <a href="#hw">Hardware Engineering</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 1. COMPUTER SCIENCE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<main>
+<div class="container">
+
+<section id="cs">
+  <div class="section-header">
+    <h2>Computer Science</h2>
+  </div>
+
+  <!-- CS Article 1: WASM Component Model -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-cs">WebAssembly · Runtime Architecture</span>
+      <h3>WASI Preview 3 and the Component Model Reach Production Maturity</h3>
+      <p class="article-kicker">WIT interfaces replace raw memory pointers as the lingua franca of cross-language Wasm composition</p>
+    </div>
+
+    <p>The stabilisation of WASI (WebAssembly System Interface) Preview 3, combined with the widening industry adoption of the Component Model, has resolved what was arguably the most stubborn friction point in the WebAssembly ecosystem: seamless polyglot composition without fragile FFI layers. In practical terms, a Rust-compiled data-processing kernel and a Python business-logic module can now be packaged as composable Wasm components that communicate through typed, versioned WebAssembly Interface Type (WIT) definitions rather than through raw 32-bit linear-memory pointers. The result is a degree of language-agnostic interop that the container world spent years trying to fake with protobufs and REST shims.</p>
+
+    <p>The architectural shift is consequential. Prior to the Component Model's maturity, every Wasm module operated as an island of linear memory: crossing the boundary between a host JavaScript engine and a Wasm module required explicit marshalling — copying bytes, serialising to JSON, and deserialising back. That round-trip dominated wall-clock time for anything more granular than large batch work. WIT definitions introduce a proper interface description layer sitting above raw memory, allowing runtimes to automatically generate optimised glue code. At the tooling level, <code>wit-bindgen</code> handles the code-gen step for Rust, C, and Go; Python and JavaScript targets are trailing by roughly one release cycle.</p>
+
+    <div class="callout">
+      <p>OpenUI's recent migration from a Rust/WASM parser to pure TypeScript netted a <strong>3x throughput improvement</strong> — not because TypeScript is faster, but because the WASM Boundary Tax (constant string copying between JS heap and linear memory) obliterated Rust's native speed advantage for fine-grained, high-frequency data exchange.</p>
+    </div>
+
+    <p>That the OpenUI team's Rust→TypeScript rewrite produced a 3× speedup deserves careful unpacking, because it risks being misread as evidence that WASM is simply slow. The six-stage pipeline (autocloser → lexer → splitter → parser → resolver → mapper) was invoked per token of LLM-streamed output. Each invocation crossed the JS/WASM boundary, triggering heap allocation on both sides plus a serialisation cycle. The WASM overhead was not in Rust's execution of the parser logic — that part was genuinely fast — but in the membrane cost of transitioning between the two memory worlds up to hundreds of times per frame. The lesson is not anti-WASM; it is a precise statement about granularity. WASM wins on CPU-bound batch workloads. It loses on chatty, pointer-heavy, streaming pipelines unless the module boundary is designed to batch across many tokens per call. The Component Model's WIT interfaces improve the ergonomics of this design constraint but do not eliminate the membrane cost entirely; they merely make it easier to engineer around.</p>
+
+    <p>On the serverless side, cold-start latency — the nemesis of container-based functions — has reached a structural disadvantage versus Wasm runtimes. AWS Lambda's Wasm runtime, now generally available, reports cold starts in the low-microsecond range, compared to the 100–500 ms typical of container-based serverless. The WasmEdge runtime's 2 MB minimum footprint makes it viable even for edge-constrained deployments. Fermyon's Spin framework is emerging as the opinionated orchestration layer of choice here, providing HTTP handlers, queue bindings, and timer primitives over a Wasm-native substrate. The parallels to the early Kubernetes era are striking: a raw runtime layer gaining an opinionated operator framework that abstracts its rough edges.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Runtime</th>
+            <th>Engine</th>
+            <th>Cold Start</th>
+            <th>Primary Use Case</th>
+            <th>Notable Feature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>WasmEdge</td>
+            <td>Custom AOT</td>
+            <td class="td-mono">~50 µs</td>
+            <td>Edge / IoT</td>
+            <td>2 MB footprint</td>
+          </tr>
+          <tr>
+            <td>Wasmer</td>
+            <td>Multi-backend</td>
+            <td class="td-mono">~200 µs</td>
+            <td>Server / Embedded</td>
+            <td>AOT install-time compile</td>
+          </tr>
+          <tr>
+            <td>WAMR</td>
+            <td>Interpreter + AOT</td>
+            <td class="td-mono">~80 µs</td>
+            <td>RTOS / Constrained MCUs</td>
+            <td>Interpreter fallback</td>
+          </tr>
+          <tr>
+            <td>V8 Liftoff</td>
+            <td>Baseline JIT</td>
+            <td class="td-mono">~2 ms</td>
+            <td>Browser</td>
+            <td>Tiers up to TurboFan</td>
+          </tr>
+          <tr>
+            <td>SpiderMonkey</td>
+            <td>Baseline + Ion</td>
+            <td class="td-mono">~3 ms</td>
+            <td>Browser / Gecko</td>
+            <td>RLBox sandbox integration</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The WASM Component Model also provides a practical answer to the "known-good module" problem that plagues plugin architectures in game engines. A dark-fantasy RPG engine exposing a scripting API can now publish a versioned WIT interface; modders compile against that interface in Rust, Zig, or even C#, and the runtime validates component signatures before loading — replacing the fragile <code>dlopen</code>/<code>GetProcAddress</code> pattern that has been the source of catastrophic mod-induced crashes since the Quake modding era.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://component-model.bytecodealliance.org/">Bytecode Alliance — Component Model Specification</a>
+      <a href="https://github.com/bytecodealliance/wit-bindgen">wit-bindgen on GitHub</a>
+      <a href="https://calmops.com/programming/webassembly-wasi-2026-server-side-wasm/">WASI 2026: Server-Side Wasm Revolution</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- CS Article 2: Photonic CAM / Cornell atomic imaging -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-cs">Computer Architecture · Research</span>
+      <h3>Cornell's Atomic-Scale Defect Imaging and the UW-Madison Photonic CAM</h3>
+      <p class="article-kicker">Electron ptychography reveals buried dopant profiles; optical CAM arrays promise energy-proportional in-memory search at scale</p>
+    </div>
+
+    <p>Two research results this month advance the intersection of physical characterisation and computational architecture in ways that will take several years to reach production but are worth tracking now. Cornell researchers published work on an advanced electron ptychography technique that, for the first time, resolves atomic-scale crystalline defects inside a completed commercial chip — not a specially prepared test coupon but an extracted sample from a production device. The method exploits the phase-contrast sensitivity of a convergent electron beam to reconstruct the 3D potential field of a sample with sub-Ångstrom precision, mapping dopant atom positions and vacancy clusters that conventional STEM imaging cannot resolve due to depth ambiguity.</p>
+
+    <p>The immediate implication for the semiconductor industry is metrology feedback. As GAA (Gate-All-Around) nanosheet transistors scale below 2 nm, the active channel volumes are so small that a single misplaced dopant atom can shift a transistor's threshold voltage by tens of millivolts — well outside the design window for SRAM bitcells and analog circuits. Current yield-learning loops rely on electrical characterisation after failure and destructive cross-sectional TEM. Ptychographic in-line inspection could enable non-destructive, spatially resolved defect maps at wafer scale, feeding directly into process-control loops. The bottleneck is throughput: current data acquisition and phase reconstruction pipelines require hours of GPU compute per sample. Parallelising the iterative phase retrieval — a problem analogous to phase unwrapping in synthetic-aperture radar — to near-real-time speeds on dedicated silicon is an open research challenge.</p>
+
+    <p>Separately, UW-Madison's electrical engineering group demonstrated a photonic content-addressable memory (CAM) array performing large-scale parallel associative lookup operations at the speed of light, consuming orders of magnitude less energy per search than an equivalent SRAM-based TCAM. Traditional ternary CAMs dominate packet classification in network ASICs and L1/L2 TLB lookup in microprocessors, but their power density is punishing — a 1 Mbit TCAM can draw 1–2 W in active search mode. The photonic CAM uses resonant microring modulators as storage elements; the match operation is a phase-coherent interference measurement rather than a voltage comparison. The absence of charge movement in the match path eliminates the dominant power dissipation mechanism. Whether this translates to tape-out silicon remains to be demonstrated, but the architecture suggests a path toward in-memory search engines for graph databases and transformer attention pattern matching at sub-picojoule-per-bit energy costs.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.sciencedaily.com/news/computers_math/computer_science/">ScienceDaily — CS Research Roundup</a>
+      <a href="https://www.warf.org/warf-advances/warf-advances-in-engineering-and-computer-science-march-2026/">WARF Advances — March 2026</a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 2. SOFTWARE DEVELOPMENT -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="sw">
+  <div class="section-header">
+    <h2>Software Development</h2>
+  </div>
+
+  <!-- SW Article 1: GitHub Actions timezone + environments -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">CI/CD · GitHub Actions</span>
+      <h3>GitHub Actions Late-March Update: IANA Timezone Scheduling and Deployment-Free Environments</h3>
+      <p class="article-kicker">Two long-requested papercuts resolved — one with surprisingly deep implications for distributed CI/CD scheduling correctness</p>
+    </div>
+
+    <p>GitHub shipped its late-March 2026 Actions update this week, resolving two features that had accumulated thousands of community upvotes over several years. The changes are individually modest but their compound effect on production workflow design is worth examining at the architectural level.</p>
+
+    <p>The first change: IANA timezone support for <code>schedule</code> triggers. Previously, every cron schedule in GitHub Actions was evaluated against UTC, forcing teams to mentally offset their maintenance windows, nightly build jobs, and database rotation tasks. The problem is trivial to state but consistently dangerous in practice, particularly across DST boundaries: a team scheduling a 2:30 AM local-time deploy would, twice a year, see their pipeline fire an hour early or skip entirely due to DST spring-forward folding the skipped hour. The fix is a new optional <code>timezone:</code> key on the schedule block, accepting any IANA zone identifier:</p>
+
+<pre><code><span class="comment"># A deploy that respects Amsterdam business hours</span>
+on:
+  schedule:
+    - cron: <span class="str">'30 5 * * 1-5'</span>
+      timezone: <span class="str">"Europe/Amsterdam"</span>
+</code></pre>
+
+    <p>The GitHub documentation specifies DST handling explicitly: for schedules in zones that observe DST spring-forward, a skipped-hour schedule advances to the next valid time. This behaviour is consistent with how <code>cron</code> on GNU/Linux systems handles the transition when <code>TZ</code> is set — but the consistency is not free. The runner infrastructure must now maintain a per-workflow IANA zone database and compute next-fire times against zone-aware calendar arithmetic rather than raw Unix epoch arithmetic. The correctness of this becomes non-trivial when combined with the existing constraint that scheduled workflows in GitHub Actions evaluate against the HEAD of the default branch — meaning a timezone misconfiguration in a recent commit could silently shift all downstream deploys without triggering any diff-visible alarm.</p>
+
+    <p>The second change is architecturally more interesting from a secrets-management perspective. GitHub Environments previously created a deployment record every time they were referenced in a workflow — a side-effect that polluted the deployment history and triggered unwanted webhook events for every CI run that merely needed access to environment-scoped secrets. The new <code>deployment: false</code> key decouples secret access from deployment lifecycle:</p>
+
+<pre><code>jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      deployment: <span class="kw">false</span>   <span class="comment"># access secrets, skip deploy record</span>
+    steps:
+      - <span class="fn">run</span>: echo ${{ secrets.STAGING_DB_URL }}
+</code></pre>
+
+    <p>The caveat is intentional: custom deployment protection rules — those using the GitHub Deployments API to gate pipelines through external approval systems — are incompatible with <code>deployment: false</code>. Any environment configured with a protection rule will continue to require an auto-deploy, preserving the audit trail that makes those rules meaningful. The design correctly separates two independent capabilities that were accidentally coupled: secret namespacing (which environments provide) and deployment lifecycle management (which environments also provide, but don't always need to).</p>
+
+    <p>For teams building event-driven Belgian-market booking platforms with multi-region staging environments, the combination of these two changes enables a cleaner pattern: a nightly regression suite that fires at 22:00 Europe/Brussels, reads staging secrets without polluting the deployment history, and gates production promotion through a separate, protection-rule-gated environment job — all in a single workflow file without any custom offset arithmetic or dummy deployment workarounds.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://github.blog/changelog/2026-03-19-github-actions-late-march-2026-updates/">GitHub Changelog — Late March 2026 Actions Updates</a>
+      <a href="https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows">GitHub Docs — Events that Trigger Workflows</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- SW Article 2: Deno + WASM JIT / TypeScript Runtime War -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">Runtime Architecture · TypeScript Backends</span>
+      <h3>Deno 2.7, the WASM Boundary Tax, and the JavaScript Runtime Stratification of 2026</h3>
+      <p class="article-kicker">Bun's JavaScriptCore engine, Deno's Rust-native toolchain, and V8's TurboFan tiering pull the server-side JS ecosystem in three different performance directions</p>
+    </div>
+
+    <p>Deno's 2.7 release this week includes a cluster of meaningful performance and ergonomics improvements, among them: auto-detection of CJS versus ESM in <code>deno eval</code>, a <code>--cpu-prof-flamegraph</code> flag that generates interactive SVG flamegraphs directly from the runtime profiler, OTEL attribute array support in telemetry, and a runtime source map application for CPU profiler output. The flamegraph generation deserves attention: it wires <code>v8::CpuProfiler</code> output through an SVG renderer inside the Deno binary itself, meaning teams running Deno on CI can emit a self-contained, browser-openable flame chart as a workflow artefact without any post-processing step. The profiler output is also now source-map aware, so TypeScript symbols appear in the flame chart rather than transpiled JavaScript identifiers — a material improvement for profiling TypeScript-first backends where the compiled output is sufficiently transformed to make raw V8 profiles nearly unreadable.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">20–40×</span>
+        <span class="stat-label">Bun package install speedup vs npm</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">35%</span>
+        <span class="stat-label">AWS Lambda cost reduction reported on Bun migration</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">3×</span>
+        <span class="stat-label">OpenUI WASM→TypeScript parser speedup</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">~50 µs</span>
+        <span class="stat-label">Wasm cold start vs 100–500ms for containers</span>
+      </div>
+    </div>
+
+    <p>The broader runtime ecosystem is stratifying along two fault lines: raw startup performance versus ecosystem depth. Bun, built on Apple's JavaScriptCore (JSC) engine, prioritises the former. JSC's design philosophy — shared with Safari's JavaScript pipeline — favours fast startup over peak JIT throughput. V8's TurboFan JIT is a more aggressive optimiser that pays a longer warm-up cost in exchange for higher steady-state throughput on long-lived server processes. For serverless functions where each invocation may be cold, the JSC trade-off wins decisively: teams report AWS Lambda execution-duration reductions of ~35% after migrating from Node to Bun, with the savings originating primarily in reduced JIT warm-up overhead rather than in algorithmic changes. For persistent, high-throughput API servers — the kind that handle thousands of concurrent connections across a long process lifetime — V8's JIT typically closes the gap and often inverts it.</p>
+
+    <p>Deno's differentiation is architectural correctness rather than raw throughput. Its Rust-based CLI provides a permission-first security model, native first-class TypeScript compilation (no <code>ts-node</code> interception layer), and a standard library that follows Web API specifications rather than Node's historical conventions. The consequence is that Deno is meaningfully easier to reason about in security-sensitive contexts — a scheduled job that has no network permission cannot accidentally call out to a third-party endpoint through a transitive dependency, because the capability simply isn't granted. For backend services processing medical or financial data, this model has genuine audit trail value.</p>
+
+    <p>The Hono framework continues to emerge as the TypeScript backend framework for the edge and multi-runtime tier. Its zero-dependency core, explicit <code>Context</code>-typed handlers, and native support for Cloudflare Workers, Deno, Bun, and Node runtimes make it structurally well-suited for polyglot CI/CD pipelines where the same business logic is deployed to a Lambda function, an edge worker, and a Docker container from the same source. The framework's cold-start characteristics are excellent precisely because it makes no assumptions about the runtime environment and carries no singleton state in module scope.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Runtime</th>
+            <th>JS Engine</th>
+            <th>TS Native</th>
+            <th>Package Mgr</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Node.js 22</td>
+            <td class="td-mono">V8 (TurboFan)</td>
+            <td>Via ts-node/tsx</td>
+            <td class="td-mono">npm / pnpm</td>
+            <td>Ecosystem breadth, long-lived servers</td>
+          </tr>
+          <tr>
+            <td>Bun 1.x</td>
+            <td class="td-mono">JavaScriptCore</td>
+            <td>Native</td>
+            <td class="td-mono">bun (binary lockfile)</td>
+            <td>Serverless, CI pipelines, startup-sensitive</td>
+          </tr>
+          <tr>
+            <td>Deno 2.7</td>
+            <td class="td-mono">V8 (sandboxed)</td>
+            <td>Native + WASM</td>
+            <td class="td-mono">jsr + npm compat</td>
+            <td>Security-critical, edge-native, standards-first</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>One architectural signal worth watching: Deno Deploy Classic's announced shutdown (July 20, 2026) is forcing teams to migrate to the new Deno Deploy platform. The new platform uses a Wasm-based workload isolation model rather than V8 isolates, aligning Deno's production deployment story with the broader WASI ecosystem. Whether this proves to be an advantage or a footgun depends on how effectively the WasmEdge runtime underneath it handles the concurrency patterns that Node.js isolate-per-request handles with well-understood semantics.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://github.com/denoland/deno/releases">Deno Release Notes — GitHub</a>
+      <a href="https://encore.dev/articles/best-typescript-backend-frameworks">Encore — Best TypeScript Backend Frameworks 2026</a>
+      <a href="https://dev.to/rayenmabrouk/why-we-ditched-node-for-bun-in-2026-and-why-you-should-too-48kg">Why We Ditched Node for Bun in 2026</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- SW Article 3: Browser Internals -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">Browser Internals · Rendering Engine</span>
+      <h3>V8's TurboFan vs SpiderMonkey's Warp: JIT Architecture Divergence and What It Means for WASM Execution</h3>
+      <p class="article-kicker">Parallel CSS style recalculation in Gecko's Stylo, V8's tiered WASM compilation, and the WebGPU rendering path in Blink</p>
+    </div>
+
+    <p>The three major browser rendering engines — Blink/V8, Gecko/SpiderMonkey, and WebKit/JavaScriptCore — have converged on full WebAssembly 2.0 compliance and achieve identical scores on Acid2/Acid3, but they diverge sharply at the JIT architecture and GPU utilisation layers in ways that matter for engineering decisions about where to deploy performance-critical WebAssembly modules.</p>
+
+    <p>V8's WebAssembly execution pipeline operates in two tiers. The first is Liftoff, a single-pass baseline compiler that produces x86-64 or ARM64 machine code with near-O(n) compile time relative to bytecode size. Liftoff trades quality of generated code for compilation speed: it performs no register allocation beyond a simple stack discipline and emits no loop invariant code motion. The second tier, TurboFan (shared with JavaScript optimisation), is an SSA-based optimising compiler that performs full dataflow analysis, escape analysis, and instruction scheduling. V8 hot-tiers Wasm functions into TurboFan asynchronously on background threads, meaning the main thread never stalls on optimisation. The critical detail for engine authors and game developers targeting WASM: TurboFan WASM now supports speculative inlining across Wasm→JS and JS→Wasm call boundaries, using deopt points to fall back to unoptimised code when speculation fails. This is the mechanism that makes Wasm-integrated game scripting viable — calling a JS callback from a tight Wasm render loop no longer necessarily exits the JIT context.</p>
+
+    <p>Gecko's SpiderMonkey uses the Warp compiler (successor to IonMonkey) for its optimising tier. The key architectural difference from V8 is Warp's extensive use of CacheIR — a bytecode-level intermediate representation for polymorphic inline cache stubs. CacheIR allows SpiderMonkey to inline the "fast path" of property accesses and type checks directly into the JIT output without the full overhead of type feedback oracle that V8 uses. The practical consequence is that Gecko's JIT performs better on highly polymorphic TypeScript code patterns — the kind generated by framework boundary code — while V8 wins on monomorphic hot paths where TurboFan's aggressive type specialisation can run deeper. For WebAssembly specifically, SpiderMonkey integrates RLBox sandboxing for third-party Wasm modules, which wraps memory accesses in a Software-Fault-Isolation boundary. This is a meaningful security trade-off for browser plugin ecosystems but introduces ~5–10% overhead on memory-intensive Wasm workloads.</p>
+
+    <p>The more structurally important CSS story is in Gecko. The Stylo CSS engine, written in Rust as part of the Quantum project, performs style recalculation across independent DOM subtrees in parallel — spawning work across all available CPU cores using a work-stealing scheduler. A single Chromium process, by contrast, runs style computation on a single thread. For rendering-heavy pages — a map canvas, a live scheduling grid, a large fantasy RPG inventory UI — Firefox's parallel style computation can provide a meaningful frame-time advantage. The engineering cost is complexity: the work-stealing scheduler introduces non-determinism in the order of style resolution for subtrees with shared cascade context, which is why Blink has not adopted the same model. Chrome's GPU-accelerated compositor (CC) and WebRender (now default in Firefox) both render via GPU, but their rasterisation models differ: Blink rasterises to textures on the CPU and uploads to the GPU, while WebRender tessellates and rasterises directly on the GPU. For scenes with many independently animated layers — a common pattern in game HUDs — WebRender's approach reduces the number of texture uploads and eliminates redundant CPU rasterisation work.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://v8.dev/">V8 Blog — WebAssembly Internals</a>
+      <a href="https://developer.chrome.com/docs/web-platform/blink">Chrome for Developers — Blink Architecture</a>
+      <a href="https://medium.com/@addyosmani/how-modern-browsers-work-7e1cc7337fff">Addy Osmani — How Modern Browsers Work (2025)</a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 3. HARDWARE ENGINEERING -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="hw">
+  <div class="section-header">
+    <h2>Hardware Engineering</h2>
+  </div>
+
+  <!-- HW Article 1: imec + High-NA EUV -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-hw">Semiconductor Fabrication · Lithography</span>
+      <h3>imec Takes Delivery of ASML EXE:5200 High-NA EUV — Sub-2nm R&D Moves to European Soil</h3>
+      <p class="article-kicker">The $400M EXE:5200 at imec Leuven is one of fewer than a dozen worldwide; full qualification targeted for Q4 2026, enabling A14-node process development</p>
+    </div>
+
+    <p>Belgian chip research institute imec confirmed delivery of ASML's EXE:5200 High-NA EUV lithography system this month — a machine that costs roughly $400 million and is one of fewer than a dozen units in existence globally. The acquisition is part of imec's five-year strategic partnership with ASML, backed by EU Chips Act funding (IPCEI and NanoIC pilot line programs) and the Flemish and Dutch governments. Full system qualification is targeted for Q4 2026, after which imec's global partner ecosystem — comprising essentially every major fabless design house and memory manufacturer — will have access to sub-2nm and advanced DRAM process development on European territory for the first time.</p>
+
+    <p>The physics of High-NA EUV requires some unpacking to appreciate why this system is categorically different from the 0.33 NA EUV tools that enabled 7nm through 2nm production. Numerical aperture in an optical system governs the finest resolvable feature through the Rayleigh criterion: <em>R = k₁ · λ / NA</em>, where λ for EUV is 13.5 nm and k₁ is a process-dependent constant typically around 0.28 for dense line/space patterns. At 0.33 NA, this resolves to approximately 11.5 nm half-pitch per exposure — which is why 3nm and 2nm nodes required multi-patterning to achieve tighter pitches. At 0.55 NA (the EXE:5200), the resolution improves to approximately 8 nm half-pitch in single exposure, eliminating two to three multi-patterning steps per critical layer. Each eliminated patterning step reduces overlay error accumulation, simplifies process flow, and improves yield by removing one opportunity for misalignment-induced shorts or opens.</p>
+
+    <div class="callout">
+      <p>The EXE:5200's 0.55 NA achieves <strong>~8 nm half-pitch</strong> per single exposure — vs 13 nm at 0.33 NA — eliminating two to three multi-patterning steps per critical layer and resetting the yield baseline for sub-2nm logic.</p>
+    </div>
+
+    <p>The engineering challenges introduced by the higher NA are non-trivial. The larger optical cone angle means the anamorphic projection optics must use a 4:1 reduction ratio in one axis and 8:1 in the other — requiring new reticle stitching infrastructure and resizing the maximum printable field from 26×33 mm² (standard) to 26×16.5 mm². The smaller field requires more die exposures per wafer, partially offsetting the throughput gains from eliminated multi-patterning steps. Additionally, mask-induced shift (MIS) and aberration uniformity across the anamorphic field demand mask fabrication tolerances an order of magnitude tighter than current EUVL masks — a supply chain bottleneck that ASML CEO Christophe Fouquet has acknowledged as the primary gating factor for high-volume manufacturing entry in 2027–2028.</p>
+
+    <p>Intel's 14A node is the first commercial high-volume target for High-NA, building on the EXE:5200B acceptance testing completed at the D1X Oregon fab in December 2025. Samsung is deploying its second High-NA unit in the first half of 2026 for 2nm (SF2) and advanced HBM4 DRAM patterning. TSMC, notably, has chosen to defer High-NA adoption, opting instead to push 0.33 NA EUV to its limits through enhanced multi-patterning for the A14 (1.4nm) node. The economic rationale is clear: TSMC's 2nm wafer pricing is already at $30,000 — a 10–20% premium over 3nm — and adding High-NA capital expenditure (at $380M+ per system, requiring multiple units per production bay) would compress margins or force further customer price increases. Intel and Samsung, both seeking to close the foundry gap with TSMC, are making a different calculation: that process density leadership justifies the equipment cost premium.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>System</th>
+            <th>NA</th>
+            <th>Min. Pitch (single exposure)</th>
+            <th>Field Size</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-mono">TWINSCAN NXE:3800</td>
+            <td class="td-mono">0.33</td>
+            <td class="td-mono">~13 nm</td>
+            <td class="td-mono">26 × 33 mm²</td>
+            <td>HVM (3nm–2nm)</td>
+          </tr>
+          <tr>
+            <td class="td-mono">TWINSCAN EXE:5000</td>
+            <td class="td-mono">0.55</td>
+            <td class="td-mono">~8 nm</td>
+            <td class="td-mono">26 × 16.5 mm²</td>
+            <td>R&D at Intel, Samsung, TSMC</td>
+          </tr>
+          <tr>
+            <td class="td-mono">TWINSCAN EXE:5200B</td>
+            <td class="td-mono">0.55</td>
+            <td class="td-mono">~8 nm</td>
+            <td class="td-mono">26 × 16.5 mm²</td>
+            <td>Pre-HVM — Intel, Samsung, imec, SK hynix</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>For GAA nanosheet transistors — the device architecture that replaces FinFET at 2nm and below — High-NA EUV's tighter patterning tolerances are not merely a density benefit. GAA gate formation requires patterning the internal surfaces of nanosheet stacks where overlay error compounds multiplicatively across each sheet layer. A 1 nm overlay improvement at the lithography step translates to a threshold voltage distribution tightening of roughly 15–20 mV at the device level, which cascades into reduced leakage variance and improved energy efficiency at the circuit level. The thermal design power (TDP) consequences are material: chips manufactured on a well-yielding GAA process enabled by High-NA EUV are expected to deliver a 30–40% improvement in performance-per-watt relative to FinFET 3nm — not through faster clocks, but through leakage current reduction and the ability to drive supply voltages lower while maintaining timing margin.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.trendforce.com/news/2026/03/19/news-imec-secures-asmls-most-advanced-exe5200-high-na-euv-for-sub-2nm-4q26-qualification-target/">TrendForce — imec Secures EXE:5200</a>
+      <a href="https://www.trendforce.com/news/2026/02/16/news-asmls-high-na-euv-for-2027-28-which-giants-are-betting-big-intel-samsung-sk-hynix-or-tsmc/">TrendForce — ASML High-NA EUV Adopter Strategies</a>
+      <a href="https://www.asml.com/en/products/euv-lithography-systems">ASML — EUV Lithography Systems</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- HW Article 2: UCIe 3.0 + HBM4 + CXL 4.0 -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-hw">Memory Architecture · Heterogeneous Interconnects</span>
+      <h3>UCIe 3.0, CXL 4.0, and the HBM4 Mass Production Ramp: The Three-Layer Memory Hierarchy Takes Shape</h3>
+      <p class="article-kicker">64 GT/s die-to-die links, 2 TB/s HBM4 stacks, and 100+ TB coherent CXL memory pools are converging on a disaggregated compute fabric architecture</p>
+    </div>
+
+    <p>Three interconnect and memory standards are maturing in parallel this year, and their convergence is defining the memory hierarchy for the next five years of AI and HPC infrastructure. Understanding the role each plays — and where they interface — requires separating three distinct problems: on-package bandwidth (HBM4), die-to-die integration (UCIe 3.0), and rack-scale memory disaggregation (CXL 4.0).</p>
+
+    <p>SK hynix's 16-layer HBM4 with 48 GB, debuted at CES 2026, extends the architecture first specified in JEDEC's JESD238 standard. The 16-layer stack achieves bandwidth exceeding 2 TB/s per stack by widening the through-silicon via (TSV) interface bus to 2048 bits and increasing signalling rate to approximately 7.2 Gbps per pin. The move from 12 to 16 layers is not purely a capacity scaling story: the additional DRAM dies provide more independent banks, allowing finer-grained burst scheduling that reduces effective access latency at the controller level by approximately 12% in random access patterns. The base die in HBM4 supports customer-specific logic integration — termed cHBM — enabling compute-in-memory operations, PIM (Processing-In-Memory) acceleration, and direct on-die attention score computation for transformer inference. Samsung is pursuing a parallel cHBM path for its Exynos 2600 and Tesla AI chip designs.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">&gt;2 TB/s</span>
+        <span class="stat-label">HBM4 per-stack bandwidth</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">64 GT/s</span>
+        <span class="stat-label">UCIe 3.0 data rate (2× UCIe 2.0)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">128 GT/s</span>
+        <span class="stat-label">CXL 4.0 (PCIe 7.0 physical layer)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">100+ TB</span>
+        <span class="stat-label">CXL 4.0 coherent memory pool per rack</span>
+      </div>
+    </div>
+
+    <p>UCIe 3.0, specified in mid-2025 and now in its production IP integration phase, doubles the data rate from UCIe 2.0's 32 GT/s to 64 GT/s. The protocol adds runtime recalibration — a mechanism allowing the physical layer to dynamically adjust equalisers and timing margins while the system is live, compensating for thermal drift in 3D-stacked packages where the TSV pitch is shrinking to 6 µm (hybrid bonding territory). The most strategically important feature is the UCIe DFx Architecture (UDA), a vendor-agnostic management fabric enabling real-time link telemetry across chiplets from different foundries and vendors. The "known good die" (KGD) problem — the yield risk of assembling untested chiplets into a multi-die package — is addressed through UDA's early-stage testability hooks that allow individual dies to be burned-in and characterised before bonding. AMD's MI400 GPU, using 2nm compute chiplets alongside HBM4, is the first production silicon expected to leverage UCIe 3.0's full feature set.</p>
+
+    <p>CXL 4.0, released by the CXL Consortium in November 2025, rides the PCIe 7.0 physical layer at 128 GT/s and introduces bundled ports that aggregate multiple physical connections into a single logical attachment delivering 1.5 TB/s. The key capability enabled by CXL 3.x/4.0 is multi-host memory pooling with cache coherency: a pool of CXL-attached DRAM in a 2-socket server can be addressed by both CPUs and by PCIe-attached accelerators as part of a coherent address space, with the CXL controller maintaining MESI-style coherence across the fabric. The production deployment timeline for multi-rack CXL memory pooling (100+ TB per rack) is late 2026–2027. Near-term deployments are focused on single-rack KV cache offloading for LLM inference, where storing KV cache in CXL-attached memory (at 4–5× lower cost than GPU VRAM) while keeping hot activations in HBM achieves 3.8–6.5× inference throughput improvements over RDMA-based approaches. PNM-KV, a processing-near-memory architecture for KV cache token page selection, demonstrates up to 21.9× throughput by co-locating selection logic with CXL memory — eliminating the CPU round-trip for cache eviction decisions.</p>
+
+    <p>The architectural geometry emerging from UCIe 3.0 + HBM4 + CXL 4.0 can be described as three concentric memory tiers. The innermost tier is HBM4 on-package: 2 TB/s bandwidth, ~10 ns latency, attached to the compute die through hybrid bonding at sub-6 µm pitch — essentially L4 cache semantics for AI workloads. The middle tier is CXL-attached DRAM in the same server (CXL 2.0/3.x): ~70 ns latency, ~200–400 GB/s bandwidth, providing memory expansion without cache coherency complexity for capacity-constrained inference. The outermost tier is multi-rack CXL 4.0 pooled memory: latency in the 200–500 ns range but coherent across the fabric, enabling the "memory-as-a-service" model where AI workloads' KV caches can grow to 150+ GB without GPU VRAM constraints. The research proposal to use UCIe-S instead of LPDDR6 as an on-package memory interface reports bandwidth density up to 10× higher than HBM4 alternatives at equivalent energy per bit — a result that suggests HBM's packaging model, which requires heterogeneous DRAM+logic stacking, may eventually yield to a UCIe-native memory chiplet model as hybrid bonding matures.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Technology</th>
+            <th>Bandwidth</th>
+            <th>Latency</th>
+            <th>Coherency</th>
+            <th>Use Tier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HBM4 (on-package)</td>
+            <td class="td-mono">&gt;2 TB/s / stack</td>
+            <td class="td-mono">~10 ns</td>
+            <td>N/A (direct)</td>
+            <td>L4 cache / working set</td>
+          </tr>
+          <tr>
+            <td>CXL 2.0 DRAM expander</td>
+            <td class="td-mono">~100 GB/s</td>
+            <td class="td-mono">~70 ns</td>
+            <td>Host-coherent</td>
+            <td>Memory expansion</td>
+          </tr>
+          <tr>
+            <td>CXL 3.x pooled DRAM</td>
+            <td class="td-mono">~400 GB/s fabric</td>
+            <td class="td-mono">~100–200 ns</td>
+            <td>Peer-to-peer</td>
+            <td>KV cache / model offload</td>
+          </tr>
+          <tr>
+            <td>CXL 4.0 multi-rack pool</td>
+            <td class="td-mono">1.5 TB/s port</td>
+            <td class="td-mono">~200–500 ns</td>
+            <td>Full fabric coherency</td>
+            <td>100+ TB AI memory fabric</td>
+          </tr>
+          <tr>
+            <td>DDR5-6400 (CPU-attached)</td>
+            <td class="td-mono">~100 GB/s total</td>
+            <td class="td-mono">~65 ns</td>
+            <td>Full MESI</td>
+            <td>CPU working set / OS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>One implementation signal worth watching: SK hynix's CMM-Ax product integrates computing capabilities directly into CXL memory modules — effectively embedding an FPGA-class processing element inside the memory expander. This positions CXL-attached memory not merely as a capacity tier but as an active processing resource, analogous to near-data processing (NDP) architectures explored in academic literature for the past decade. For graph neural network inference, where memory access patterns are deeply irregular and data reuse is low, co-locating selection logic with the data eliminates the bandwidth cost of moving candidate data to the GPU for evaluation — a pattern that AMD's FPGA-in-package research confirmed delivers 2–4× throughput improvement for sparse workloads.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.electronicdesign.com/technologies/eda/article/55362929/synopsys-ucie-30-scaling-multi-die-designs-to-the-next-level">Electronic Design — UCIe 3.0 Deep Dive</a>
+      <a href="https://news.skhynix.com/sk-hynix-showcases-next-generation-ai-memory-innovations-at-ces-2026/">SK hynix — HBM4 at CES 2026</a>
+      <a href="https://introl.com/blog/cxl-4-0-infrastructure-planning-guide-memory-pooling-2025">Introl — CXL 4.0 Infrastructure Planning Guide</a>
+      <a href="https://arxiv.org/pdf/2510.06513">arXiv — On-Package Memory with UCIe</a>
+    </div>
+  </article>
+
+</section>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-author">Haroon Heylen</p>
+  <p style="font-family:'IBM Plex Mono',monospace; font-size:0.66rem; color:#a09880; letter-spacing:0.1em;">
+    This Week's Report: 26 Mar 2026 &nbsp;·&nbsp; Computer Science &nbsp;·&nbsp; Software Development &nbsp;·&nbsp;
+    Hardware Engineering
+  </p>
+
+  <div class="footer-links">
+    <!-- GitHub -->
+    <a href="https://github.com/haroonheylen" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="GitHub">
+        <path
+          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+      </svg>
+      haroonheylen
+    </a>
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/in/haroonheylen/" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn">
+        <path
+          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+      </svg>
+      haroonheylen
+    </a>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <p class="footer-license">
+    MIT License &nbsp;·&nbsp; Copyright © 2026 Haroon Heylen<br>
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this work to use, copy, modify,
+    merge, publish, distribute, sublicense, and/or sell copies, subject to the above copyright notice appearing in all
+    copies.
+  </p>
+</footer>
+
+</body>
+</html>
