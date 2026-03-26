@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>This Week's Report: 17 Mar 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #292620;
+    --ink-muted: #333333;
+    --paper: #fffffe;
+    --paper-warm: #f0f0f0;
+    --accent: #2b7fc0;
+    --accent-soft: #d2d9e8;
+    --rule: #d9d4c8;
+    --code-bg: #d5d5d5a5;
+    --tag-cs: #1a4b6e;
+    --tag-sw: #163950;
+    --tag-hw: #1a4b6e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.78;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: #151a1f;
+    color: var(--paper);
+    padding: 3.5rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 12px, transparent 12px, transparent 18px);
+  }
+  .masthead-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #a09880;
+    margin-bottom: 1.2rem;
+  }
+  .masthead h1 {
+    font-family: 'Franklin Gothic Medium', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+    color: #e2e2e2;
+    margin-bottom: 0.8rem;
+  }
+  .masthead h1 span { color: var(--accent); font-style: italic; }
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: #a09880;
+    letter-spacing: 0.1em;
+    border-top: 1px solid #3d3830;
+    padding-top: 1.2rem;
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .masthead-meta span::before { content: '// '; color: var(--accent); }
+
+  /* ── NAV ── */
+  .toc-bar {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.9rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .toc-bar a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc-bar a:hover { color: var(--accent); }
+  .toc-bar .sep { color: var(--rule); }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    padding: 2rem 0 2rem 0;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.5rem;
+  }
+  .section-header h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-header h2 .num {
+    font-style: italic;
+    color: var(--accent);
+    margin-right: 0.15em;
+  }
+
+  /* ── ARTICLES ── */
+  .article { margin-bottom: 4rem; }
+  .article-header { margin-bottom: 1.5rem; }
+
+  .article-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2em 0.6em;
+    border-radius: 2px;
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+  }
+  .tag-cs { background: #ddeaf4; color: var(--tag-cs); }
+  .tag-sw { background: #deefd5; color: var(--tag-sw); }
+  .tag-hw { background: #f7e6d8; color: var(--tag-hw); }
+
+  .article h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+    font-weight: 620;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+
+  .article-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .article p {
+    margin-bottom: 1.3rem;
+    color: var(--ink-soft);
+  }
+  .article p:last-of-type { margin-bottom: 0; }
+
+  /* ── CODE BLOCKS ── */
+  pre, code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    color: var(--tag-hw);
+  }
+  pre {
+    background: #1c1a17;
+    color: #d9d4c0;
+    padding: 1.4rem 1.6rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.8rem 0;
+    line-height: 1.6;
+    border-left: 3px solid var(--accent);
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: 0.78rem;
+  }
+  .comment { color: #6b7a60; }
+  .kw { color: #c98b57; }
+  .str { color: #8db07c; }
+  .fn { color: #7fb1c9; }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  thead tr {
+    background: #474747;
+    color: var(--paper);
+  }
+  thead th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+  }
+  tbody tr:nth-child(even) { background: var(--paper-warm); }
+  tbody td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .td-mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; }
+
+  /* ── CALLOUT / PULL QUOTE ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    margin: 2rem 0;
+    background: var(--accent-soft);
+    border-radius: 0 4px 4px 0;
+  }
+  .callout p {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat-card {
+    background: #e1e1e1;
+    color: var(--paper);
+    padding: 1.2rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+    line-height: 1.3;
+  }
+
+  /* ── FURTHER READING ── */
+  .further-reading {
+    margin-top: 2rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .further-reading-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.7rem;
+  }
+  .further-reading a {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--tag-cs);
+    text-decoration: none;
+    margin-bottom: 0.3rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .further-reading a:hover { text-decoration: underline; color: var(--accent); }
+  .further-reading a::before { content: '→ '; }
+
+  /* ── DIVIDER ── */
+  .article-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 3rem 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #151a1f;
+    color: #a09880;
+    padding: 2.8rem 2rem;
+    margin-top: 5rem;
+    text-align: center;
+  }
+  footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+  .footer-author {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    color: var(--paper);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #c8bfad;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    border: 1px solid #3b3d30;
+    padding: 0.4em 0.85em;
+    border-radius: 3px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .footer-links a:hover {
+    color: var(--paper);
+    border-color: var(--accent);
+    background: rgba(193, 193, 193, 0.1);
+  }
+  .footer-links svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+  .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: #3d3830;
+    margin: 2rem auto;
+  }
+  .footer-license {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: #6b6358;
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .container { padding: 0 1.2rem; }
+    .toc-bar { gap: 0.8rem; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .toc-bar { display: none; }
+    body { font-size: 10pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <p class="masthead-eyebrow">Technical Analysis &amp; Engineering Review</p>
+  <h1>Weekly Tech Report:<br>17 Mar 2026</h1>
+</header>
+
+<!-- STICKY NAV -->
+<nav class="toc-bar">
+  <a href="#cs">Computer Science</a>
+  <span class="sep">|</span>
+  <a href="#sw">Software Development</a>
+  <span class="sep">|</span>
+  <a href="#hw">Hardware Engineering</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 1. COMPUTER SCIENCE -->
+<!-- ════════════════════════════════════════════════════════ -->
+<main>
+<div class="container">
+
+<section id="cs">
+  <div class="section-header">
+    <h2>Computer Science</h2>
+  </div>
+
+  <!-- CS Article 1: MIT Terahertz Quantum Microscope -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-cs">Quantum Physics · Materials Characterisation</span>
+      <h3>MIT's Terahertz Near-Field Microscope Resolves Hidden Quantum Oscillations Inside Superconductors</h3>
+      <p class="article-kicker">By compressing terahertz light into sub-wavelength apertures, physicists image phonon-driven charge fluctuations that standard spectroscopy cannot reach</p>
+    </div>
+
+    <p>MIT physicists published results this week describing a new near-field terahertz microscope capable of imaging quantum mechanical oscillations buried inside superconducting materials — dynamics that have been theorised for decades but were experimentally inaccessible with prior instrumentation. The instrument compresses terahertz radiation, which spans roughly 0.1 to 10 THz and ordinarily diffracts at scales far too large for lattice-level imaging, into a nanometre-scale tip apex using a metallic near-field antenna. The resulting confined electromagnetic field couples to local charge and spin excitations at spatial resolutions well below the diffraction limit — a regime in which quantum fluctuations that are thermally averaged out in bulk measurements become resolvable as spatially distinct features.</p>
+
+    <p>The physics being imaged is the coupling between phonon (lattice vibration) modes and the electron pairs responsible for superconductivity. In conventional BCS superconductors, this coupling is both the mechanism of pairing and the upper bound on the transition temperature — the stronger the phonon-mediated attraction, the higher the critical temperature at which superconductivity emerges. In high-temperature cuprate superconductors, the pairing mechanism remains contested; multiple competing theories propose phononic, magnetic, or purely electronic origins. What all theories share is a prediction of spatially inhomogeneous charge fluctuations at sub-nanometre scales near structural defects and domain boundaries. The MIT instrument provides the first direct imaging of this inhomogeneity in real space at millikelvin temperatures, rather than inferring it from momentum-space spectroscopy.</p>
+
+    <div class="callout">
+      <p>The microscope achieves sub-10 nm spatial resolution at terahertz frequencies — more than <strong>1,000 times sharper</strong> than the free-space diffraction limit of terahertz light — by exploiting the lightning-rod effect at a metallic tip apex to concentrate the electromagnetic field into a region smaller than a single unit cell of the crystal lattice.</p>
+    </div>
+
+    <p>The immediate implication for materials science is a new experimental handle on the pairing mechanism debate. If spatially resolved terahertz spectroscopy can identify which phonon branches are anomalously enhanced near superconducting domain boundaries — and whether that enhancement correlates with locally elevated critical temperature — it becomes possible to design materials with engineered phonon spectra rather than relying on trial-and-error chemical substitution. The longer arc toward quantum computing is also relevant: superconducting qubits are acutely sensitive to two-level system (TLS) defects at Josephson junction interfaces. The same terahertz near-field technique, adapted to operated at millikelvin qubit operating temperatures, could map TLS distributions across a fabricated qubit without destroying the device — a capability that currently requires destructive cross-sectional TEM of failed samples.</p>
+
+    <p>Technically, the MIT system operates by modulating the tip-sample distance at the cantilever resonance frequency and demodulating the scattered terahertz signal at higher harmonics, rejecting the far-field background that would otherwise swamp the near-field signal by several orders of magnitude. The terahertz source is a photoconductive emitter pumped by a femtosecond laser; the detector is a similar photoconductive switch gated by the same laser pulse, enabling time-domain spectroscopy with sub-picosecond temporal resolution simultaneously with the spatial scan. The combination of spatial and temporal resolution provides access to both the amplitude and phase of local charge oscillations — effectively a four-dimensional dataset that previous THz instruments could only access in one or two of these dimensions at a time.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.sciencedaily.com/news/matter_energy/technology/">ScienceDaily — Technology & Physics Research</a>
+      <a href="https://physics.mit.edu/">MIT Department of Physics</a>
+      <a href="https://www.nature.com/subjects/superconductors">Nature — Superconductors Research Archive</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- CS Article 2: Thin-Film Semiconductor Strain Engineering -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-cs">Materials Science · 2D Semiconductors</span>
+      <h3>Strain Engineering Without Doping: Air-Cavity Substrates Supercharge Monolayer Tungsten Disulfide</h3>
+      <p class="article-kicker">Researchers reshape sub-surface geometry rather than the material itself, decoupling strain from chemical perturbation in ultra-thin semiconductor stacks</p>
+    </div>
+
+    <p>A research team published results this week demonstrating a technique for enhancing the electronic and optical properties of atomically thin semiconductors by engineering the shape of the substrate beneath them rather than modifying the semiconductor material itself. The approach deposits a single-atom-thick layer of tungsten disulfide (WS₂) — a transition metal dichalcogenide (TMD) with strong excitonic properties — over a substrate that has been patterned with tiny air-filled cavities. Where the WS₂ spans a cavity, the absence of a rigid supporting surface allows the monolayer to relax into a slightly curved, strain-differentiated geometry. The lattice strain that develops as the monolayer drapes over the cavity edge modifies the local band structure, red-shifting the photoluminescence by tens of meV and increasing quantum yield in the strained regions.</p>
+
+    <p>The conceptual importance of the technique is that it achieves the same band-structure modification as chemical doping without introducing any foreign atoms into the lattice. Conventional doping of TMD monolayers — substituting sulfur atoms with selenium, for example, in the WS₂ lattice — introduces local scattering centres that degrade carrier mobility even as they shift the band gap. Strain engineering via substrate geometry is, in principle, fully reversible and leaves the chemical composition of the semiconductor intact. The air-cavity geometry also provides a natural photonic cavity effect: the refractive index contrast between the suspended monolayer and the air gap below enhances the local optical field strength, further amplifying the photoluminescence signal from the strained regions. In photonic applications — single-photon emitters, excitonic circuits, and quantum-dot-analogue emitters in solid-state TMD stacks — this combination of controlled strain and optical confinement in the same lithographic step is a meaningful fabrication simplification.</p>
+
+    <p>The scalability of the approach is the key open question. Air-cavity substrates patterned by electron-beam lithography are straightforward to characterise but expensive to manufacture at wafer scale. The transfer of large-area CVD-grown TMD films over cavity arrays without tearing or delamination is a known yield problem: surface tension during the wet-transfer process collapses cavities smaller than roughly 500 nm. Dry-transfer techniques using polymer stamps have better yield for sub-200 nm features but introduce contamination at the interface that partially suppresses the optical enhancement. The research team used EBL-patterned cavities of 300–800 nm diameter, which places the technique in a fabrication regime accessible to academic cleanrooms but not yet to semiconductor production lines. The path to wafer-scale deployment will require either cavity-definition by nanoimprint lithography (which can pattern at these length scales in parallel) or a pivot to using naturally occurring step edges and grain boundaries in epitaxial substrates as the strain sources.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>TMD Material</th>
+            <th>Band Gap (unstrained)</th>
+            <th>Photoluminescence</th>
+            <th>Primary Application</th>
+            <th>Strain Sensitivity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>WS₂ (monolayer)</td>
+            <td class="td-mono">~2.0 eV (direct)</td>
+            <td>Strong, tunable</td>
+            <td>Optical emitters, LEDs</td>
+            <td>~45 meV / % strain</td>
+          </tr>
+          <tr>
+            <td>MoS₂ (monolayer)</td>
+            <td class="td-mono">~1.8 eV (direct)</td>
+            <td>Moderate</td>
+            <td>Transistors, sensors</td>
+            <td>~72 meV / % strain</td>
+          </tr>
+          <tr>
+            <td>WSe₂ (monolayer)</td>
+            <td class="td-mono">~1.65 eV (direct)</td>
+            <td>Strong</td>
+            <td>Valleytronics, spin qubits</td>
+            <td>~36 meV / % strain</td>
+          </tr>
+          <tr>
+            <td>MoSe₂ (monolayer)</td>
+            <td class="td-mono">~1.65 eV (direct)</td>
+            <td>Moderate</td>
+            <td>Photodetectors</td>
+            <td>~50 meV / % strain</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The broader research context is a years-long effort to construct functional excitonic circuits in two-dimensional materials — devices where information is carried not by electrons but by excitons (bound electron-hole pairs) that can be guided, switched, and emitted in an on-chip photonic architecture. Strain gradients in TMD monolayers produce a funnelling effect: excitons drift toward regions of lower band gap (higher strain), providing a passive routing mechanism without any applied electric field. Air-cavity substrates provide a reproducible and lithographically addressable method for creating such gradients, which is the missing manufacturing link between laboratory demonstrations of excitonic funnelling and practical excitonic integrated circuits.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.sciencedaily.com/news/computers_math/computer_science/">ScienceDaily — CS &amp; Materials Research Roundup</a>
+      <a href="https://www.nature.com/subjects/two-dimensional-materials">Nature — 2D Materials Archive</a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 2. SOFTWARE DEVELOPMENT -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="sw">
+  <div class="section-header">
+    <h2>Software Development</h2>
+  </div>
+
+  <!-- SW Article 1: NVIDIA GTC 2026 / Vera Rubin + Dynamo software -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">AI Infrastructure · Developer Tooling</span>
+      <h3>NVIDIA GTC 2026: Vera Rubin Platform, Dynamo 1.0, and the Agentic Scaling Phase</h3>
+      <p class="article-kicker">Seven co-designed chips, five rack types, and a new inference operating system — Jensen Huang reframes AI factories as the unit of compute for the agentic era</p>
+    </div>
+
+    <p>NVIDIA's annual GTC developer conference ran March 16–19 in San Jose, and Jensen Huang's keynote contained a density of announcements that warrants careful disaggregation. The headline hardware announcement was the Vera Rubin platform — the successor to Blackwell, architected from the ground up for inference and agentic workloads rather than the training throughput that characterised earlier GPU generations. The platform comprises seven co-designed chips in full production: the Rubin GPU, the Vera CPU, the Groq 3 LPU (from the $20 billion Groq acquisition completed in December), the NVLink 6 Switch, ConnectX-9 SuperNIC, BlueField-4 DPU, and the Spectrum-6 Ethernet switch. The NVL72 rack integrates 72 Rubin GPUs and 36 Vera CPUs on NVLink 6, and achieves 10× higher inference throughput per watt at one-tenth the cost per token versus Blackwell — a figure that, if it holds under production workloads, fundamentally alters the economics of large-context LLM serving.</p>
+
+    <p>The Groq 3 LPU integration is the most architecturally distinctive element of the platform. The chip carries 500 MB of on-die SRAM and achieves 150 TB/s of internal bandwidth — a design philosophy directly opposed to NVIDIA's HBM-centric memory architecture. Where HBM stacks provide high external bandwidth to a GPU die that caches only a fraction of model weights on-die, Groq's LPU architecture aims to hold the entire KV cache for a running context in on-chip SRAM, eliminating the HBM round-trip for cache reads during auto-regressive decoding. In practice this matters most for long-context inference — the multi-step reasoning chains that define agentic workflows — where the KV cache for a 128k-token context window at model weights precision can exceed the on-chip SRAM capacity of conventional GPUs, forcing expensive HBM accesses on every decode step. NVIDIA is positioning the Groq 3 LPX rack deployed alongside the NVL72 as a specialised decode accelerator, with the NVL72 handling prefill.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">$1T</span>
+        <span class="stat-label">Jensen Huang's projected Blackwell + Vera Rubin purchase orders through 2027</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">10×</span>
+        <span class="stat-label">NVL72 inference throughput per watt vs Blackwell</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">150 TB/s</span>
+        <span class="stat-label">Groq 3 LPU internal bandwidth</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">336B</span>
+        <span class="stat-label">Rubin GPU transistor count, with 288 GB HBM4</span>
+      </div>
+    </div>
+
+    <p>On the software side, NVIDIA announced general availability of Dynamo 1.0, described as an "operating system for AI factories." The framing is deliberate: Dynamo manages the scheduling, routing, and resource allocation of inference requests across a heterogeneous pool of NVL72, Groq LPX, and Vera CPU racks, applying disaggregated prefill-decode scheduling, KV cache migration between racks, and SLO-aware request routing. The KV cache migration capability — moving cached context representations from one physical rack to another without re-computing the prefill — is the critical enabling mechanism for multi-agent workflows where different specialist sub-agents may be hosted on different hardware. Without cross-rack KV cache portability, every agent hand-off would require a full prefill re-compute, incurring both latency and cost that make complex multi-agent pipelines economically prohibitive at scale.</p>
+
+    <p>For developers building on top of the Vera Rubin platform, the practical entry point is the updated NVIDIA Agent Toolkit and the NemoClaw integration with the OpenClaw agent platform. OpenClaw — the open-source autonomous agent framework that surged in early 2026 — is now receiving first-party NVIDIA support through the NemoClaw stack, including CUDA-accelerated tool execution and sandboxed sub-agent orchestration. Jensen Huang also previewed Feynman, the next-generation architecture beyond Vera Rubin, though details were sparse — largely a roadmap signal that NVIDIA's hardware cadence extends well into 2028. Among the first cloud providers expected to deploy Vera Rubin NVL72 instances later in 2026 are AWS, Google Cloud, Microsoft Azure, and OCI.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://nvidianews.nvidia.com/news/nvidia-vera-rubin-platform">NVIDIA Newsroom — Vera Rubin Platform Announcement</a>
+      <a href="https://blogs.nvidia.com/blog/gtc-2026-news/">NVIDIA Blog — GTC 2026 Live Coverage</a>
+      <a href="https://gradientflow.com/nvidia-gtc-2026/">Gradient Flow — GTC 2026 Practitioner's Guide</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- SW Article 2: Next.js 16.2 + Cursor Composer 2 + OpenAI/Astral -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">Developer Tooling · AI Coding</span>
+      <h3>Next.js 16.2, Cursor Composer 2, and the OpenAI–Astral Acquisition: Three Signals in the AI Coding Stack</h3>
+      <p class="article-kicker">An 87% faster dev server, a fine-tuned Kimi K2.5 coding model priced 86% below its predecessor, and a Python toolchain acquisition that mirrors Anthropic's Bun play</p>
+    </div>
+
+    <p>Three announcements this week collectively define the current competitive topology of AI-assisted software development. Taken individually, each is a meaningful product update. Read together, they reveal a structural pattern: every layer of the developer toolchain — the frontend framework, the IDE-native coding model, and the runtime/tooling substrate — is being pulled simultaneously toward tighter AI integration, lower inference cost, and vertical control by the major AI labs.</p>
+
+    <p>Next.js 16.2, released on March 18, leads with a number that earns its headline: dev server startup is roughly 87% faster than 16.1, translating to approximately a 4× time-to-URL improvement on the default application. The mechanism is Turbopack becoming lazier about compilation in the productive sense — deferring module compilation until the browser requests a specific route, rather than eagerly compiling the entire dependency graph on startup. For large Next.js applications with hundreds of routes and heavy server component trees, this makes the difference between a 30-second wait and a 4-second iteration loop. The rendering side of the release is equally significant: a contribution to React itself replaces the <code>JSON.parse</code> reviver approach to Server Components payload deserialisation with a two-step plain parse plus JavaScript walk, eliminating costly C++/JS boundary crossings and delivering 25–60% faster HTML rendering in real applications. The improvement is non-breaking and requires no configuration changes — upgrading the Next.js and React versions is sufficient.</p>
+
+<pre><code><span class="comment"># The dev experience improvements in 16.2 are purely additive</span>
+<span class="comment"># No configuration changes required to get the rendering gains</span>
+npx @next/codemod@canary upgrade latest
+
+<span class="comment"># New in 16.2: AGENTS.md scaffolding in create-next-app</span>
+npx create-next-app@latest my-app
+<span class="comment"># → generates AGENTS.md with context for coding agents</span>
+<span class="comment"># → browser log forwarding to terminal (agent-friendly debugging)</span>
+<span class="comment"># → next-browser (experimental) for in-browser agent DevTools</span>
+</code></pre>
+
+    <p>The AI improvements in 16.2 deserve specific attention: the release introduces <code>AGENTS.md</code> scaffolding in <code>create-next-app</code> (providing structured context that coding agents can consume when modifying the project), browser log forwarding to the development terminal (so an agent running in a headless context can observe client-side errors without browser access), and experimental Next.js DevTools MCP integration for AI agents to query route metadata, component trees, and build diagnostics directly. These are not cosmetic additions. They represent Vercel's architectural position that the primary user of the development server is increasingly an autonomous coding agent rather than a human developer, and that the tooling surface should be designed accordingly.</p>
+
+    <p>Cursor's release of Composer 2 on March 19 is the most direct competitive statement of the week against OpenAI and Anthropic. The model is a fine-tuned variant of the open-source Kimi K2.5 architecture, trained through continued pretraining on code-only data followed by reinforcement learning on long-horizon multi-step coding tasks. The results on standard benchmarks are measured but real: 61.3 on CursorBench, 61.7 on Terminal-Bench 2.0 (surpassing Claude Opus 4.6's 58.0 and Claude Opus 4.5's 52.1), and 73.7 on SWE-bench Multilingual. GPT-5.4 still leads Terminal-Bench 2.0 at 75.1 in its highest configuration, and Cursor makes no claim to universal superiority — the pitch is capability per dollar. Composer 2 Standard costs $0.50/$2.50 per million input/output tokens, versus the predecessor Composer 1.5 at $3.50/$17.50 — an 86% price reduction on both input and output that repositions Composer 2 as the default cost-efficient option for Cursor's one million daily active users.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>CursorBench</th>
+            <th>Terminal-Bench 2.0</th>
+            <th>SWE-bench Multilingual</th>
+            <th>Input $/M tok</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GPT-5.4 (high)</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">75.1</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">~$15.00</td>
+          </tr>
+          <tr>
+            <td>Composer 2 Fast</td>
+            <td class="td-mono">61.3</td>
+            <td class="td-mono">61.7</td>
+            <td class="td-mono">73.7</td>
+            <td class="td-mono">$1.50</td>
+          </tr>
+          <tr>
+            <td>Claude Opus 4.6</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">58.0</td>
+            <td class="td-mono">—</td>
+            <td class="td-mono">~$15.00</td>
+          </tr>
+          <tr>
+            <td>Composer 2 Standard</td>
+            <td class="td-mono">61.3</td>
+            <td class="td-mono">61.7</td>
+            <td class="td-mono">73.7</td>
+            <td class="td-mono">$0.50</td>
+          </tr>
+          <tr>
+            <td>Composer 1.5</td>
+            <td class="td-mono">44.2</td>
+            <td class="td-mono">47.9</td>
+            <td class="td-mono">65.9</td>
+            <td class="td-mono">$3.50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The third announcement — OpenAI's agreement to acquire Astral, the company behind <code>uv</code>, <code>Ruff</code>, and <code>ty</code> — is the most structurally interesting for the Python ecosystem's long-term governance. Astral's toolchain has, in roughly two years, displaced pip, virtualenv, pyenv, flake8, black, isort, and mypy as the default choice for new Python projects, accumulating hundreds of millions of downloads per month in the process. The acquisition mirrors Anthropic's December 2025 acquisition of Bun (the JavaScript runtime that powers Claude Code's CLI), though the strategic rationale differs somewhat: where Bun was a core runtime dependency of Claude Code that Anthropic brought in-house to guarantee maintenance continuity, Astral represents a bid by OpenAI to embed its Codex agent directly into the dependency management, linting, and type-checking steps of every Python project — not merely the code generation step. The deal terms were not disclosed and regulatory approval is pending; OpenAI has committed to keeping Astral's open-source tools actively maintained post-close.</p>
+
+    <div class="callout">
+      <p>The pattern is now clear: Anthropic acquires <strong>Bun</strong> (JavaScript runtime), OpenAI acquires <strong>Astral</strong> (Python toolchain). The coding agent wars are being fought not just at the model layer but at the developer infrastructure layer — whoever owns the toolchain owns the agent's eyes and hands inside the codebase.</p>
+    </div>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://nextjs.org/blog/next-16-2">Next.js 16.2 Official Release Notes</a>
+      <a href="https://openai.com/index/openai-to-acquire-astral/">OpenAI — Astral Acquisition Announcement</a>
+      <a href="https://astral.sh/blog/openai">Astral — Founder's Note on Joining OpenAI</a>
+      <a href="https://venturebeat.com/technology/cursors-new-coding-model-composer-2-is-here-it-beats-claude-opus-4-6-but">VentureBeat — Cursor Composer 2 Deep Dive</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- SW Article 3: Stripe Minions + Agentic Code Review -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-sw">Engineering Culture · AI Agents</span>
+      <h3>Stripe's Minions Ship 1,300 Pull Requests per Week: What Unattended Coding Agents Look Like in Production</h3>
+      <p class="article-kicker">One-shot sandboxed agents, sub-10-second devbox spin-up, and human review as the only gate — Stripe's architecture for autonomous software development at scale</p>
+    </div>
+
+    <p>Stripe disclosed this week that its internal AI coding agents, called Minions, are now generating over 1,300 pull requests per week, with every line of code written by the agents and every PR reviewed by a human before merge. The disclosure is notable not for the volume — which will seem conservative in a few years — but for the specific architectural choices Stripe made in deploying unattended agents at this scale in a payments infrastructure context where a single defective PR can affect millions of transactions.</p>
+
+    <p>Minions are explicitly not interactive copilots. The design pattern is one-shot and asynchronous: an engineer submits a task specification through Slack, a CLI, or a web interface, and the agent takes complete ownership of the task from that point — reading the relevant codebase context, writing the implementation, generating tests, producing documentation, and opening a pull request — without further engineer interaction during execution. Each Minion runs in an isolated, pre-warmed devbox that spins up in under 10 seconds. The pre-warming is architecturally significant: it means the agent environment is not provisioned on demand (which would introduce cold-start latency that disrupts the async workflow) but is maintained in a ready state, implying Stripe is carrying a standing pool of idle compute as an operational cost of the system. The isolation guarantee is equally important in a payments context: each agent session has no network access beyond approved internal endpoints, preventing a compromised or hallucinating agent from exfiltrating code or making unauthorised external calls.</p>
+
+    <p>The human review gate — the only gate — is a deliberate architectural choice that reflects a specific theory of where human judgment adds value in an agentic code production pipeline. Stripe is not using automated test suites as a merge gate beyond what would be applied to any human-authored PR. The implicit claim is that experienced human code reviewers, reviewing a complete PR with full diff context, can reliably detect the quality and safety issues that matter in a payments codebase — and that adding further automated review stages would introduce review latency that undermines the productivity case for agents without catching failure modes that reviewers miss. This is a reasonable position for a company with Stripe's engineering culture, but it transfers poorly to organisations where reviewer quality is more variable or where the domain (security-critical cryptography, regulatory compliance code) requires specialist knowledge that reviewers may not reliably possess.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://singhajit.com/dev-weekly/2026/mar-16-22/nvidia-gtc-vera-rubin-stripe-minions-laravel-13-trivy-attack/">Dev Weekly — Stripe Minions &amp; GTC 2026 Roundup</a>
+      <a href="https://www.techbyjohan.com/tech-insights-2026-week-13/">Tech Insights Week 13 — Agent Adoption Analysis</a>
+    </div>
+  </article>
+
+</section>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 3. HARDWARE ENGINEERING -->
+<!-- ════════════════════════════════════════════════════════ -->
+<section id="hw">
+  <div class="section-header">
+    <h2>Hardware Engineering</h2>
+  </div>
+
+  <!-- HW Article 1: Vera Rubin Hardware Deep Dive -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-hw">AI Silicon · Rack Architecture</span>
+      <h3>Inside the Vera Rubin NVL72: 336B-Transistor GPU, 288 GB HBM4, and the Kyber Vertical Tray Design</h3>
+      <p class="article-kicker">From the Rubin GPU's memory subsystem to the Kyber preview for Vera Rubin Ultra — a hardware engineer's reading of GTC 2026's silicon announcements</p>
+    </div>
+
+    <p>The Vera Rubin platform deserves a second, hardware-focused pass beyond the software-layer analysis above. The Rubin GPU die carries 336 billion transistors — a transistor count that reflects both the move to Samsung's 4nm process node (shared with the Groq 3 LPU) and the architectural decision to integrate the NVLink 6 fabric interface die-to-die with the compute die, rather than routing off-package through a traditional PCIe or SXM connector. The memory subsystem ships with 288 GB of HBM4 per GPU, providing 22 TB/s of memory bandwidth per chip — a bandwidth density that, across a full NVL72 rack, approaches 1.6 PB/s of aggregated memory bandwidth before NVLink interconnect is factored in. For the prefill phase of large-context inference, where the entire prompt must be read from memory and processed in parallel, this bandwidth figure directly determines the latency floor: a 128k-token context with a 70B parameter model requires roughly 17 GB of KV cache data per request, meaning each prefill read traverses the HBM stack at speeds that would saturate a 100 GbE network link in microseconds.</p>
+
+    <p>The Vera CPU, positioned as the successor to NVIDIA's Grace CPU, is an Arm-based design with LPDDR5 memory rather than HBM, targeting the CPU-intensive portions of agentic workflows: environment simulation, reinforcement learning rollout generation, tool execution, and the orchestration logic that routes sub-agent tasks. The design offers twice the energy efficiency of comparable x86 server CPUs and 50% faster single-thread performance, positioning it not as a general-purpose server processor replacement but as a co-processor optimised for the specific access patterns of agentic RL workloads — random-access, low-reuse reads over large state tables that would thrash GPU L2 caches if run on the Rubin die itself. The Vera CPU Rack integrates 256 liquid-cooled Vera CPUs, providing the CPU-side environment pool that RL training requires: a dense, energy-efficient compute substrate for the hundreds of concurrent simulation environments that generate training signal for each GPU step.</p>
+
+    <div class="callout">
+      <p>Jensen Huang previewed <strong>Kyber</strong> — NVIDIA's next rack architecture after Rubin — featuring 144 GPUs in vertically oriented compute trays designed to reduce latency through shorter inter-GPU signal paths and to increase rack density by eliminating the horizontal cable runs that dominate cooling and space budgets in current NVL72 deployments.</p>
+    </div>
+
+    <p>The Kyber preview is worth reading carefully for what it implies about the physical engineering constraints NVIDIA is running into at NVL72 scale. Horizontal GPU trays in current rack configurations require copper NVLink cables of varying lengths to reach all 72 GPU peers — length variation introduces timing skew that the NVLink 6 protocol must absorb through elastic buffers, adding latency. Vertical tray orientation allows all inter-GPU NVLink connections within a tray column to be of near-identical length, eliminating the skew problem and enabling tighter clock margins. The density benefit is substantial: vertical trays can be cooled by a top-to-bottom liquid flow path without requiring horizontal airflow cross-sections, which are the primary constraint on current rack depth. NVIDIA has not committed a specific date for Kyber availability, but the inclusion in the keynote as a named programme signals a manufacturing readiness horizon of late 2027.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>GPU</th>
+            <th>HBM</th>
+            <th>Memory BW / GPU</th>
+            <th>GPUs per NVL Rack</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Blackwell</td>
+            <td class="td-mono">B200</td>
+            <td class="td-mono">HBM3e, 192 GB</td>
+            <td class="td-mono">8 TB/s</td>
+            <td class="td-mono">72 (NVL72)</td>
+            <td>HVM now</td>
+          </tr>
+          <tr>
+            <td>Vera Rubin</td>
+            <td class="td-mono">R100</td>
+            <td class="td-mono">HBM4, 288 GB</td>
+            <td class="td-mono">22 TB/s</td>
+            <td class="td-mono">72 (NVL72)</td>
+            <td>H2 2026</td>
+          </tr>
+          <tr>
+            <td>Vera Rubin Ultra (Kyber)</td>
+            <td class="td-mono">R200 (est.)</td>
+            <td class="td-mono">HBM4e (est.)</td>
+            <td class="td-mono">TBD</td>
+            <td class="td-mono">144 (vertical)</td>
+            <td>2027</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The 100% liquid cooling mandate for Vera Rubin NVL72 is a significant data centre implications story that has received less coverage than the GPU specs. Air-cooled GPU clusters at Blackwell density already push the thermal limits of most hyperscale data hall designs, requiring precision airflow management, hot-aisle containment, and CRAC unit placement that severely constrains rack placement flexibility. The transition to full liquid cooling — rear-door heat exchangers or direct liquid-to-chip cold plates — eliminates the airflow constraint but introduces a new facility requirement: chilled water loops rated for the rack power density of an NVL72, which at peak inference load approaches 80 kW per rack. Microsoft's Fairwater AI superfactory sites, announced at GTC as early adopters of Vera Rubin NVL72, are being designed from the ground up for this power and liquid cooling specification — a facility design that differs fundamentally from retrofitting existing colocation data centres.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://www.datacenterknowledge.com/data-center-chips/gtc-2026-nvidia-unveils-vera-rubin-ai-platform-eyes-1t-by-2027">Data Center Knowledge — Vera Rubin Full Coverage</a>
+      <a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Kicks-Off-the-Next-Generation-of-AI-With-Rubin--Six-New-Chips-One-Incredible-AI-Supercomputer/default.aspx">NVIDIA Investor Relations — Rubin Press Release</a>
+      <a href="https://use-apify.com/blog/nvidia-vera-rubin-gtc-2026">Apify — Vera Rubin: Claims to Trust vs. Verify</a>
+    </div>
+  </article>
+
+  <div class="article-divider"></div>
+
+  <!-- HW Article 2: AI Chip Supply Chain -->
+  <article class="article">
+    <div class="article-header">
+      <span class="article-tag tag-hw">AI Infrastructure · Geopolitics</span>
+      <h3>Chip Export Controls, the Frore Systems $143M Cooling Raise, and the Thermal Wall in Dense AI Clusters</h3>
+      <p class="article-kicker">As governments tighten AI chip access and GPU clusters approach 80 kW per rack, the picks-and-shovels layer — cooling, power, interconnect — emerges as the next investment frontier</p>
+    </div>
+
+    <p>Two hardware-adjacent stories from this week's news cycle deserve to be read together, because they both describe constraints on the AI infrastructure buildout that are not captured by GPU benchmark comparisons. The first is the ongoing tightening of U.S. government export controls on AI chips, which this week saw a coalition of tech trade associations back Anthropic in its legal dispute over the Pentagon's move to blacklist the company as a supply-chain risk. The case is structurally important beyond the specific parties: it tests whether the U.S. government can use procurement decisions — rather than export regulations — to reshape AI model behaviour and deployment constraints. The question for the broader hardware ecosystem is whether NVIDIA's export-controlled Blackwell and Vera Rubin product lines to non-approved geographies will face analogous procurement-based restrictions as the U.S. government formalises its AI procurement doctrine.</p>
+
+    <p>The second story is the $143 million Series C raise by Frore Systems, a startup developing solid-state active cooling technology for high-power-density chips, at a valuation of approximately $1.64 billion. Frore's AirJet silicon cooling devices use piezoelectric actuators to move air at chip-package level — eliminating the macro-scale fans and heat sinks that currently occupy the majority of server volume in GPU clusters. At first glance this appears adjacent to the liquid cooling trajectory of Vera Rubin NVL72. The more precise reading is that Frore's technology targets the edge of the density curve: edge AI servers, robotics compute modules, and on-device inference accelerators where liquid cooling loops are not available and fan-based solutions are too loud or too large. As NVIDIA's Jetson and AGX Thor platforms push more inference capability to the edge for physical AI and autonomous vehicle applications, the thermal management of chip-scale compute becomes the primary form-factor constraint rather than the compute capability itself.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-value">$143M</span>
+        <span class="stat-label">Frore Systems Series C raise — cooling as AI infrastructure</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">80 kW</span>
+        <span class="stat-label">Estimated peak power per Vera Rubin NVL72 rack</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">$1.64B</span>
+        <span class="stat-label">Frore valuation — billion-dollar thermal management market</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">28</span>
+        <span class="stat-label">Cities in NVIDIA/Uber Drive AV rollout by 2028</span>
+      </div>
+    </div>
+
+    <p>The architectural consequence of the thermal wall for dense AI inference clusters is becoming visible in data centre design decisions. The shift from air to liquid cooling for GPU racks has been discussed for years but is now being executed at scale: Microsoft's Fairwater superfactory design, disclosed at GTC, is a facility designed entirely around liquid-cooled NVL72 deployment — not a retrofitted air-cooled data hall with liquid cooling added as an afterthought. The capital expenditure implications are significant: liquid-cooled data halls require a dedicated chilled water plant, leak detection infrastructure at each rack position, and maintenance procedures for coolant loop connections that add to the operational cost per rack. The payoff is density: liquid cooling can remove heat at 50–100× the volumetric efficiency of air, enabling rack power densities of 100 kW and above that are physically impossible with forced-air cooling at any airflow velocity that keeps fan noise within OSHA limits.</p>
+
+    <p>On the autonomous vehicle side, GTC brought confirmation that NVIDIA's Drive AV software platform is being adopted at scale: Uber announced a partnership to launch a fleet powered by Drive AV across 28 cities on four continents by 2028, starting with Los Angeles and San Francisco. Nissan, BYD, Geely, Isuzu, and Hyundai were listed as building Level 4 autonomous vehicles on the Drive Hyperion programme. The hardware implication is a sustained demand signal for AGX Thor compute modules — NVIDIA's automotive-grade SoC — in volumes large enough to matter for the company's non-datacenter revenue line, which has lagged the datacenter division significantly over the past three years. If Uber's 28-city timeline holds, the vehicle compute demand for that fleet would absorb a meaningful fraction of AGX Thor production capacity in 2027–2028.</p>
+
+    <div class="further-reading">
+      <p class="further-reading-title">Further Reading</p>
+      <a href="https://techstartups.com/2026/03/17/top-tech-news-today-march-17-2026/">Tech Startups — March 17 Roundup: Frore, Nvidia GTC, AI Policy</a>
+      <a href="https://www.cnbc.com/2026/03/16/nvidia-gtc-2026-ceo-jensen-huang-keynote-blackwell-vera-rubin.html">CNBC — Jensen Huang GTC Keynote Coverage</a>
+    </div>
+  </article>
+
+</section>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-author">Haroon Heylen</p>
+  <p style="font-family:'IBM Plex Mono',monospace; font-size:0.66rem; color:#a09880; letter-spacing:0.1em;">
+    This Week's Report: 17 Mar 2026 &nbsp;·&nbsp; Computer Science &nbsp;·&nbsp; Software Development &nbsp;·&nbsp;
+    Hardware Engineering
+  </p>
+
+  <div class="footer-links">
+    <!-- GitHub -->
+    <a href="https://github.com/haroonheylen" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="GitHub">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+      </svg>
+      haroonheylen
+    </a>
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/in/haroonheylen/" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      haroonheylen
+    </a>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <p class="footer-license">
+    MIT License &nbsp;·&nbsp; Copyright © 2026 Haroon Heylen<br>
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this work to use, copy, modify,
+    merge, publish, distribute, sublicense, and/or sell copies, subject to the above copyright notice appearing in all
+    copies.
+  </p>
+</footer>
+
+</body>
+</html>
